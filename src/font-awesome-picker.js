@@ -127,6 +127,16 @@
       }
     }
 
+    // Public method: clears the search input and resets results
+    clearInput() {
+      if (this._input) {
+        this._input.value = '';
+        this._results = [];
+        this._renderResults();
+        this._setInfo('Type to search icons');
+      }
+    }
+
     connectedCallback() {
       if (this._ready) return;
       this._ready = true;
@@ -155,7 +165,7 @@
           </div>
           
           <div class="results-container pb-4" style="max-height: 400px; overflow-y: auto; position: relative;">
-            <div class="grid grid-cols-5 gap-4 results" aria-live="polite"></div>
+            <div class="grid grid-cols-5 gap-4 results" style="grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));" aria-live="polite"></div>
           </div>
           
           <div class="pagination-controls mt-4 flex items-center justify-center gap-2" style="display: none;">
@@ -469,7 +479,7 @@
         item.dataset.iconKey = iconKey;
         item.innerHTML = `
           <div class="text-2xl"> <i class="${styleClass} fa-${name}"></i> </div>
-          <div class="text-xs break-words text-center w-full overflow-hidden" style="word-break: break-word; hyphens: auto;">${name}</div>
+          <div class="text-xs text-center w-full whitespace-normal break-words" style="line-height: 1.2;">${name}</div>
           ${isSelected && this.isMultipleMode ? '<div class="badge badge-primary badge-xs">Selected</div>' : ''}
         `;
 
