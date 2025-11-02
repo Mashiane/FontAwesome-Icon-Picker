@@ -28,13 +28,13 @@
       <button id="test-single-svg" class="btn btn-sm btn-outline">Test getIconSVG()</button>
       <button id="test-single-all" class="btn btn-sm btn-outline">Test getSelectedIcons()</button>
     </div>
+    <div class="w-[700px]">
     <font-awesome-picker 
       id="iconpicker-single" 
-      class="shadow-md rounded-md bg-base-200 mb-8" 
-      style="max-width: 1200px; margin: 0 auto;"
+      class="shadow-md rounded-md bg-base-200 mb-8 w-[700px]" 
       data-url="./assets/icons.min.json"
       icons-per-page="20">
-    </font-awesome-picker>
+    </font-awesome-picker></div>
 
     <h2 class="text-xl mb-2 mt-6">Multiple Select Mode</h2>
     <p class="mb-4 text-sm text-muted">Click icons to select multiple. Export all selected icons as ZIP. Dispatches 'selectionchange' event.</p>
@@ -43,14 +43,14 @@
       <button id="test-multiple-svg" class="btn btn-sm btn-outline">Test getIconSVG()</button>
       <button id="test-multiple-all" class="btn btn-sm btn-outline">Test getSelectedIcons()</button>
     </div>
+    <div class="w-[700px]">
     <font-awesome-picker 
       id="iconpicker-multiple" 
       class="shadow-md rounded-md bg-base-200" 
-      style="max-width: 1200px; margin: 0 auto;"
-      data-url="./assets/icons.min.json"
+            data-url="./assets/icons.min.json"
       icons-per-page="20"
       multiple>
-    </font-awesome-picker>
+    </font-awesome-picker></div>
 
     <script src="./src/font-awesome-picker.min.js"></script>
     <script>

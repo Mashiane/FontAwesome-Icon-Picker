@@ -469,7 +469,7 @@
         item.dataset.iconKey = iconKey;
         item.innerHTML = `
           <div class="text-2xl"> <i class="${styleClass} fa-${name}"></i> </div>
-          <div class="text-xs break-words text-center">${name}</div>
+          <div class="text-xs break-words text-center w-full overflow-hidden" style="word-break: break-word; hyphens: auto;">${name}</div>
           ${isSelected && this.isMultipleMode ? '<div class="badge badge-primary badge-xs">Selected</div>' : ''}
         `;
 
