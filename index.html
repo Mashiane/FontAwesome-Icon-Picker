@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Font Awesome Picker Demo</title>
+    <!-- DaisyUI v5 -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <!-- Tailwind CSS browser -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome free CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- JSZip for bulk export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+      body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; padding: 20px; }
+      font-awesome-picker { display: block; max-width: 960px; margin: 0 auto; }
+    </style>
+  </head>
+  <body>
+    <h1 class="text-2xl mb-4">Font Awesome Picker (vanilla web component)</h1>
+    <p class="mb-4 text-sm text-muted">Demo of single-select and multi-select modes with pagination.</p>
+
+    <h2 class="text-xl mb-2 mt-6">Single Select Mode (Default)</h2>
+    <p class="mb-4 text-sm text-muted">Click an icon to select it. Dispatches 'change' event immediately.</p>
+    <div class="mb-4 flex gap-2">
+      <button id="test-single-classname" class="btn btn-sm btn-outline">Test getIconClassName()</button>
+      <button id="test-single-svg" class="btn btn-sm btn-outline">Test getIconSVG()</button>
+      <button id="test-single-all" class="btn btn-sm btn-outline">Test getSelectedIcons()</button>
+    </div>
+    <font-awesome-picker 
+      id="iconpicker-single" 
+      class="shadow-md rounded-md bg-base-200 mb-8" 
+      style="max-width: 1200px; margin: 0 auto;"
+      data-url="./assets/icons.min.json"
+      icons-per-page="20">
+    </font-awesome-picker>
+
+    <h2 class="text-xl mb-2 mt-6">Multiple Select Mode</h2>
+    <p class="mb-4 text-sm text-muted">Click icons to select multiple. Export all selected icons as ZIP. Dispatches 'selectionchange' event.</p>
+    <div class="mb-4 flex gap-2">
+      <button id="test-multiple-classname" class="btn btn-sm btn-outline">Test getIconClassName()</button>
+      <button id="test-multiple-svg" class="btn btn-sm btn-outline">Test getIconSVG()</button>
+      <button id="test-multiple-all" class="btn btn-sm btn-outline">Test getSelectedIcons()</button>
+    </div>
+    <font-awesome-picker 
+      id="iconpicker-multiple" 
+      class="shadow-md rounded-md bg-base-200" 
+      style="max-width: 1200px; margin: 0 auto;"
+      data-url="./assets/icons.min.json"
+      icons-per-page="20"
+      multiple>
+    </font-awesome-picker>
+
+    <script src="./src/font-awesome-picker.min.js"></script>
+    <script>
+      // Single select mode event listener
+      const pickerSingle = document.querySelector('#iconpicker-single');
+      pickerSingle.addEventListener('change', (event) => {
+        console.log('Single mode - Icon selected:', event.detail.icon);
+        console.log('Available getter methods can be called anytime!');
+      });
+      
+      // Multiple select mode event listeners
+      const pickerMultiple = document.querySelector('#iconpicker-multiple');
+      pickerMultiple.addEventListener('selectionchange', (event) => {
+        console.log('Multiple mode - Selection changed:', event.detail);
+        console.log(`${event.detail.count} icons selected`);
+      });
+
+      // Test buttons for single mode
+      document.getElementById('test-single-classname').addEventListener('click', () => {
+        const className = pickerSingle.getIconClassName();
+        console.log('Single Mode - getIconClassName():', className);
+        alert('Single Mode - getIconClassName():\n' + (className || 'No icon selected'));
+      });
+
+      document.getElementById('test-single-svg').addEventListener('click', () => {
+        const svg = pickerSingle.getIconSVG();
+        console.log('Single Mode - getIconSVG():', svg);
+        if (svg) {
+          alert('Single Mode - getIconSVG():\nSVG data logged to console (too long to display in alert)');
+        } else {
+          alert('Single Mode - getIconSVG():\nNo icon selected');
+        }
+      });
+
+      document.getElementById('test-single-all').addEventListener('click', () => {
+        const icons = pickerSingle.getSelectedIcons();
+        console.log('Single Mode - getSelectedIcons():', icons);
+        if (icons.length > 0) {
+          const icon = icons[0];
+          alert(`Single Mode - getSelectedIcons():\n\nName: ${icon.name}\nStyle: ${icon.style}\nClassName: ${icon.className}\nViewBox: ${icon.viewBox}\nDimensions: ${icon.width}x${icon.height}\n\n(Full details in console)`);
+        } else {
+          alert('Single Mode - getSelectedIcons():\nNo icon selected (empty array)');
+        }
+      });
+
+      // Test buttons for multiple mode
+      document.getElementById('test-multiple-classname').addEventListener('click', () => {
+        const classNames = pickerMultiple.getIconClassName();
+        console.log('Multiple Mode - getIconClassName():', classNames);
+        if (Array.isArray(classNames) && classNames.length > 0) {
+          alert(`Multiple Mode - getIconClassName():\n\n${classNames.join('\n')}\n\nTotal: ${classNames.length} icons`);
+        } else {
+          alert('Multiple Mode - getIconClassName():\nNo icons selected (empty array)');
+        }
+      });
+
+      document.getElementById('test-multiple-svg').addEventListener('click', () => {
+        const svgs = pickerMultiple.getIconSVG();
+        console.log('Multiple Mode - getIconSVG():', svgs);
+        if (Array.isArray(svgs) && svgs.length > 0) {
+          alert(`Multiple Mode - getIconSVG():\n${svgs.length} SVG strings returned\n\n(Full SVG data logged to console)`);
+        } else {
+          alert('Multiple Mode - getIconSVG():\nNo icons selected (empty array)');
+        }
+      });
+
+      document.getElementById('test-multiple-all').addEventListener('click', () => {
+        const icons = pickerMultiple.getSelectedIcons();
+        console.log('Multiple Mode - getSelectedIcons():', icons);
+        if (icons.length > 0) {
+          const summary = icons.map(icon => `  • ${icon.className} (${icon.width}x${icon.height})`).join('\n');
+          alert(`Multiple Mode - getSelectedIcons():\n\n${summary}\n\nTotal: ${icons.length} icons\n\n(Full details in console)`);
+        } else {
+          alert('Multiple Mode - getSelectedIcons():\nNo icons selected (empty array)');
+        }
+      });
+    </script>
+  </body>
+</html>
