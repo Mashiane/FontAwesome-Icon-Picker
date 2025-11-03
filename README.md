@@ -2,6 +2,8 @@
 
 A lightweight, dependency-free vanilla JavaScript web component for searching and selecting Font Awesome icons. Supports both single and multiple selection modes with SVG download and ZIP export capabilities.
 
+You can check this YouTube Video Out: https://youtu.be/l0c0_GVylCs
+
 ## Files
 
 - **`src/font-awesome-picker.js`** - Main web component implementation
